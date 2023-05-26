@@ -13,3 +13,26 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
+
+      - name: Install SSH
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY}}
+          known_hosts: "na"
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avz --delete . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.TARGET_DIRECTORY }}
+      
+      - name: Run server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          script: |
+            cd ${{ secrets.TARGET_DIRECTORY }}
+            yarn install
+            yarn build
+            pm2 restart ecosystem.config.js --env production --only NodeServer
