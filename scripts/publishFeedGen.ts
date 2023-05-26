@@ -25,11 +25,11 @@ const run = async () => {
 
   // (Optional) A description of your feed
   // Ex: Top trending content from the whole network
-  const description = 'A curated list of cloud shitposters.'
+  const description = 'A curated list of cloud shitposters. (ALPHA)'
 
   // (Optional) The path to an image to be used as your feed's avatar
   // Ex: ~/path/to/avatar.jpeg
-  const avatar: string = ''
+  const avatar: string = '../yayclod.png'
 
   // -------------------------------------
   // NO NEED TO TOUCH ANYTHING BELOW HERE
